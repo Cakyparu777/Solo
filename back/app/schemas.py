@@ -39,19 +39,36 @@ class StartSessionOut(BaseModel):
     session_id: int
     start_time: datetime
 
-# --- Menu ---
-class MenuItemOut(BaseModel):
-    id: int
+class MenuItemBase(BaseModel):
     name: str
-    description: Optional[str]
+    description: Optional[str] = None
     price: float
-    image_url: Optional[str]
+    category: str
     available: bool
 
-class CategoryOut(BaseModel):
-    id: int
-    name: str
+class MenuItemCreate(MenuItemBase):
+    pass
+
+class MenuItemUpdate(BaseModel):
+    name: Optional[str]
     description: Optional[str]
+    price: Optional[float]
+    category: Optional[str]
+    available: Optional[bool]
+
+class MenuItemOut(BaseModel):
+    id:          int
+    name:        str
+    description: Optional[str]
+    price:       float
+    category:    str
+    available:   bool
+
+    class Config:
+        orm_mode = True
+
+class CategoryOut(BaseModel):
+    name: str
     items: List[MenuItemOut]
 
 class MenuOut(BaseModel):
